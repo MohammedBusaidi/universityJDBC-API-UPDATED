@@ -25,12 +25,13 @@ public class Menue {
             while (choice != 12) {
                 System.out.println("==================UNIVERSITIES DATABASE==================");
                 for (int i = 1; i <= 12; i++) {
-                    System.out.println(i + ". " + menuOptions.get(i));
+                    System.out.println(i + ". " + menueOptions.get(i));
                 }
                 System.out.println("=========================================================");
                 System.out.print("Enter your choice: ");
+               menueLoop = false;
+                choice = menueSc.nextInt();
             }
         }
-
     }
 }

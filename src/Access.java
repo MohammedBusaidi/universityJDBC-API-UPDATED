@@ -6,6 +6,7 @@ public class Access {
     static String pass = "root";
 
     public void getAccess() {
+        Menue menue = new Menue();
         Scanner accessSc = new Scanner(System.in);
         System.out.println("==================LOGIN TO THE DATABASE==================");
         boolean accessGranted = false;
@@ -21,6 +22,7 @@ public class Access {
             // Check if the entered credentials match the expected values
             if(databaseInput.equals(databaseName) && userInput.equals(user) && passInput.equals(pass)) {
                 System.out.println("Access Granted!");
+                menue.showMenue();
             }
             else {
                 System.out.println("Access Denied! check your input");
