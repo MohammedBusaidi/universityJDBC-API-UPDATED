@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class APIConsumer {
+    static University uni[];
     Scanner apiSc =new Scanner(System.in);
 
     public void searchByCountry() {
@@ -36,7 +37,7 @@ public class APIConsumer {
             conn.disconnect();
             // switch from Json to object using Gson(Gson reads Json).
             Gson gson = new Gson();
-            University uni[] = gson.fromJson(json.toString(), University[].class);
+            uni = gson.fromJson(json.toString(), University[].class);
             System.out.println("+----+-------------------------+------------+-----------------------+-----------------------+");
             System.out.println("| ID | University Name         | Location   | Domains               | Website               |");
             System.out.println("+----+-------------------------+------------+-----------------------+-----------------------+");
@@ -74,7 +75,7 @@ public class APIConsumer {
             }
             conn.disconnect();
             Gson gson = new Gson();
-            University uni[] = gson.fromJson(json.toString(), University[].class);
+            uni = gson.fromJson(json.toString(), University[].class);
             Set<String> countries = new HashSet<>();
             int counter = 1;
             for (University u : uni) {
@@ -86,5 +87,23 @@ public class APIConsumer {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void printAllUni() {
+        System.out.println("=============================================================================");
+        for (int i = 0; i < uni.length; i++) {
+            University myUni = uni[i];
+            System.out.println((i + 1) + ":\t" + myUni.state_province + " - " + myUni.country + " - " + myUni.name
+                    + " - " + myUni.alpha_two_code);
+            for (int j = 0; j < myUni.domains.length; j++) {
+                System.out.println("\tDomain " + (j + 1) + ": " + myUni.domains[j]);
+            }
+
+            for (int m = 0; m < myUni.web_pages.length; m++) {
+                System.out.println("\tWeb page " + (m) + ": " + myUni.web_pages[m]);
+
+            }
+            System.out.println("=============================================================================");
+        }
+
     }
 }

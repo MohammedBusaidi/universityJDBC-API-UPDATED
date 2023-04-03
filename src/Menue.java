@@ -51,6 +51,9 @@ public class Menue {
                     case 6:
                         newJDBC.removeTable();
                         break;
+                    case 7:
+                        newAPI.printAllUni();
+                        break;
                 }
             }
         }

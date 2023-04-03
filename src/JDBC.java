@@ -52,50 +52,28 @@ public class JDBC {
             }
     }
     public void insertData() {
-        String apiUrl = "http://universities.hipolabs.com/search?country=";
+        String url = "jdbc:sqlserver://" + "localhost:1433;" + "encrypt=true;" + "trustServerCertificate=true";
+        Connection con = null;
         try {
-            URL url = new URL(apiUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("HTTP error code : " + conn.getResponseCode());
-            }
-            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
-            String output;
-            StringBuilder json = new StringBuilder();
-
-            while ((output = br.readLine()) != null) {
-                json.append(output);
-            }
-            conn.disconnect();
-            Gson gson = new Gson();
-            University[] universities = gson.fromJson(json.toString(), University[].class);
-
-            // establish database connection
-            String url1 = "jdbc:sqlserver://" + "localhost:1433;" + "encrypt=true;" + "trustServerCertificate=true";
-            Connection con = null;
             Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
             DriverManager.registerDriver(driver);
 
-            con = DriverManager.getConnection(url1, Access.user, Access.pass);
+            con = DriverManager.getConnection(url, Access.user, Access.pass);
             Statement st = con.createStatement();
 
-            url1 += ";databaseName=" + Access.databaseName;
-            con = DriverManager.getConnection(url1, Access.user, Access.pass);
+            url += ";databaseName=" + Access.databaseName;
+            con = DriverManager.getConnection(url, Access.user, Access.pass);
 
-            // loop through all universities and insert them into the table
             String sql = "INSERT INTO universities(Name, Country, State_Province, Domains, Web_Pages, Alpha_Two_Code) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = con.prepareStatement(sql);
-
-            for (University uni : universities) {
-                ps.setString(1, uni.name);
-                ps.setString(2, uni.country);
-                ps.setString(3, uni.state_province);
-                ps.setString(4, String.join(",", uni.domains));
-                ps.setString(5, String.join(",", uni.web_pages));
-                ps.setString(6, uni.alpha_two_code);
+            University[] uni = APIConsumer.uni;
+            for (University myUni : uni) {
+                ps.setString(1, myUni.name);
+                ps.setString(2, myUni.country);
+                ps.setString(3, myUni.state_province);
+                ps.setString(4, String.join(",", myUni.domains));
+                ps.setString(5, String.join(",", myUni.web_pages));
+                ps.setString(6, myUni.alpha_two_code);
                 ps.executeUpdate();
             }
             System.out.println("DATA INSERTED!");
