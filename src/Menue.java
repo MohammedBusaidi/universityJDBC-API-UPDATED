@@ -4,6 +4,7 @@ import java.util.Scanner;
 public class Menue {
     Scanner menueSc = new Scanner(System.in);
     APIConsumer newAPI = new APIConsumer();
+    JDBC newJDBC = new JDBC();
 
     public void showMenue() {
         boolean menueLoop = true;
@@ -33,6 +34,7 @@ public class Menue {
                 choice = menueSc.nextInt();
                 switch (choice) {
                     case 1:
+                        newJDBC.initializeDatabase();
                         break;
                     case 2:
                         newAPI.searchByCountry();

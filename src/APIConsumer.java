@@ -51,7 +51,5 @@ public class APIConsumer {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
 }
