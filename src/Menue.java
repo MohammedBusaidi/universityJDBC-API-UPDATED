@@ -39,6 +39,9 @@ public class Menue {
                     case 2:
                         newAPI.searchByCountry();
                         break;
+                    case 3:
+                        newAPI.getListOfCountries();
+                        break;
                 }
             }
         }

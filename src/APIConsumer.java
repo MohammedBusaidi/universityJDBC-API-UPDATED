@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class APIConsumer {
     Scanner apiSc =new Scanner(System.in);
@@ -48,6 +50,40 @@ public class APIConsumer {
                 System.out.printf("| %s | %-23s | %-10s | %-21s | %-21s |\n", id, name, location, domains, website);
             }
             System.out.println("+----+-------------------------+------------+-----------------------+-----------------------+");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void getListOfCountries() {
+        String apiUrl = "http://universities.hipolabs.com/search?country=";
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("HTTP error code : " + conn.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+            String output;
+            StringBuilder json = new StringBuilder();
+
+            while ((output = br.readLine()) != null) {
+                json.append(output);
+            }
+            conn.disconnect();
+            Gson gson = new Gson();
+            University uni[] = gson.fromJson(json.toString(), University[].class);
+            Set<String> countries = new HashSet<>();
+            int counter = 1;
+            for (University u : uni) {
+                if (countries.add(u.country)) {
+                    System.out.println(counter + ". " + u.country);
+                    counter++;
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
