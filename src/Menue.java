@@ -42,6 +42,9 @@ public class Menue {
                     case 3:
                         newAPI.getListOfCountries();
                         break;
+                    case 4:
+                        newJDBC.insertData();
+                        break;
                 }
             }
         }

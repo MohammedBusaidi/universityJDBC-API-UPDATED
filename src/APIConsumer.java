@@ -83,7 +83,6 @@ public class APIConsumer {
                     counter++;
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
