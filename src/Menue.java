@@ -45,6 +45,12 @@ public class Menue {
                     case 4:
                         newJDBC.insertData();
                         break;
+                    case 5:
+                        newJDBC.backUpData();
+                        break;
+                    case 6:
+                        newJDBC.removeTable();
+                        break;
                 }
             }
         }

@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -99,6 +100,57 @@ public class JDBC {
             }
             System.out.println("DATA INSERTED!");
             con.close();
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+    }
+    public void backUpData() {
+        // create a new file
+        String url = "jdbc:sqlserver://" + "localhost:1433;" + "encrypt=true;" + "trustServerCertificate=true";
+        Connection con = null;
+        try {
+
+            Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+            DriverManager.registerDriver(driver);
+
+            con = DriverManager.getConnection(url, Access.user, Access.pass);
+
+            String sql = "BACKUP DATABASE " + Access.databaseName + "\r\n"
+                    + "TO DISK = 'C:\\Users\\moody\\OneDrive\\Desktop\\java\\University-Updated" + Access.databaseName + ".bak'\r\n"
+                    + "WITH DESCRIPTION = 'Full Backup for" + Access.databaseName + " Database'";
+
+
+            PreparedStatement statement = con.prepareStatement(sql);
+
+            statement.executeUpdate();
+
+            statement.close();
+            con.close();
+
+            System.out.println("Backup Successfully :)");
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+    }
+    public void removeTable() {
+        String url = "jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true";
+        Connection con = null;
+        try {
+            Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+            DriverManager.registerDriver(driver);
+
+            url += ";databaseName=" + Access.databaseName;
+            con = DriverManager.getConnection(url, Access.user, Access.pass);
+            Statement st = con.createStatement();
+
+            String sql = "DROP TABLE universities;";
+
+            st.executeUpdate(sql);
+
+            st.close();
+            con.close();
+
+            System.out.println("TABLE REMOVED!");
         } catch (Exception ex) {
             System.err.println(ex);
         }
