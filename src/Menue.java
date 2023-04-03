@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Menue {
     Scanner menueSc = new Scanner(System.in);
+    APIConsumer newAPI = new APIConsumer();
 
     public void showMenue() {
         boolean menueLoop = true;
@@ -29,8 +30,14 @@ public class Menue {
                 }
                 System.out.println("=========================================================");
                 System.out.print("Enter your choice: ");
-               menueLoop = false;
                 choice = menueSc.nextInt();
+                switch (choice) {
+                    case 1:
+                        break;
+                    case 2:
+                        newAPI.searchByCountry();
+                        break;
+                }
             }
         }
     }
