@@ -71,6 +71,9 @@ public class Menue {
                             }
                         }
                         break;
+                    case 9:
+                        newJDBC.searchData();
+                        break;
                 }
             }
         }
