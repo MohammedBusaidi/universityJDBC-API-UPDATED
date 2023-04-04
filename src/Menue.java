@@ -74,6 +74,15 @@ public class Menue {
                     case 9:
                         newJDBC.searchData();
                         break;
+                    case 10:
+                        newAPI.saveToFile();
+                        break;
+                    case 11:
+                        break;
+                    case 12:
+                       System.out.println("GOOD BYE!");
+                       System.exit(0);
+                        break;
                 }
             }
         }

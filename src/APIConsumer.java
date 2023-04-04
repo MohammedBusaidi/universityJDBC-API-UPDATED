@@ -1,6 +1,7 @@
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -138,6 +139,60 @@ public class APIConsumer {
                 counter++;
                 System.out.println("=============================================================================");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void saveToFile() {
+        String apiUrl = "http://universities.hipolabs.com/search?country=";
+        try {
+            URL url = new URL(apiUrl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+                throw new RuntimeException("HTTP error code : " + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+            String output;
+            StringBuilder json = new StringBuilder();
+
+            while ((output = br.readLine()) != null) {
+                json.append(output);
+            }
+
+            conn.disconnect();
+
+            Gson gson = new Gson();
+           uni = gson.fromJson(json.toString(), University[].class);
+            try {
+                FileWriter writer = new FileWriter("Uni.txt");
+                int counter = 1;
+                for (University myUni : uni) {
+                    writer.write(counter + ". University Name: " + myUni.name + "\n");
+                    writer.write(" University Two Code: " + myUni.alpha_two_code + "\n");
+                    writer.write(" University State-Province: " + myUni.state_province + "\n");
+                    writer.write(" University Domains: ");
+                    for(int i = 0; i < myUni.domains.length; i++) {
+                        writer.write(myUni.domains[i] + ", ");
+                    }
+                    writer.write("\n University Web Page: ");
+                    for(int j = 0; j < myUni.web_pages.length; j++) {
+                        writer.write(myUni.web_pages[j] + ", ");
+                    }
+                    counter++;
+                    writer.write("\n -------------------------------------------------------------------------------------------\n");
+                }
+                System.out.println("DATA SAVED!");
+                writer.close();
+            }
+            catch (Exception e) {
+                System.out.println("An error occurred.");
+                e.printStackTrace();
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
