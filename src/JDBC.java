@@ -94,7 +94,7 @@ public class JDBC {
             con = DriverManager.getConnection(url, Access.user, Access.pass);
 
             String sql = "BACKUP DATABASE " + Access.databaseName + "\r\n"
-                    + "TO DISK = 'C:\\Users\\moody\\OneDrive\\Desktop\\java\\University-Updated" + Access.databaseName + ".bak'\r\n"
+                    + "TO DISK = 'C:\\Users\\moody\\OneDrive\\Desktop\\java\\University-Updated\\uni.bak'\r\n"
                     + "WITH DESCRIPTION = 'Full Backup for" + Access.databaseName + " Database'";
 
 
