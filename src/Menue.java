@@ -16,11 +16,11 @@ public class Menue {
             menueOptions.put(4, "Insert the Data");
             menueOptions.put(5, "Backup Database");
             menueOptions.put(6, "Remove Table");
-            menueOptions.put(7, "Show all universites");
+            menueOptions.put(7, "Show all universities");
             menueOptions.put(8, "fetch Data");
             menueOptions.put(9, "Search by: ");
             menueOptions.put(10, "Dump data into file");
-            menueOptions.put(11, "Retrive data From file");
+            menueOptions.put(11, "Retrieve data From file");
             menueOptions.put(12, "Exit");
 
             int choice = 0;
@@ -53,6 +53,23 @@ public class Menue {
                         break;
                     case 7:
                         newAPI.printAllUni();
+                        break;
+                    case 8:
+                        boolean fetchLoop = true;
+                        while (fetchLoop) {
+                            System.out.println("1- By Database");
+                            System.out.println("2- By API");
+                            int fetchInput = menueSc.nextInt();
+                            if (fetchInput == 1) {
+                                newJDBC.fetchDataFromDatabase();
+                                break;
+                            } else if (fetchInput == 2) {
+                                newAPI.fetchDataFromApi();
+                                break;
+                            } else {
+                                fetchLoop = false;
+                            }
+                        }
                         break;
                 }
             }

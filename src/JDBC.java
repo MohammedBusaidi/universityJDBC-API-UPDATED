@@ -133,4 +133,48 @@ public class JDBC {
             System.err.println(ex);
         }
     }
+    public void fetchDataFromDatabase() {
+        String url = "jdbc:sqlserver://" + "localhost:1433;" + "encrypt=true;" + "trustServerCertificate=true";
+        Connection con = null;
+
+        try {
+            Driver driver = (Driver) Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
+            DriverManager.registerDriver(driver);
+
+            // Update url with the database name
+            url += ";databaseName=" + Access.databaseName;
+            con = DriverManager.getConnection(url, Access.user, Access.pass);
+            Statement st = con.createStatement();
+
+            String sql = "SELECT * FROM universities";
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                int id = rs.getInt("ID");
+                String name = rs.getString("Name");
+                String country = rs.getString("Country");
+                String state_province = rs.getString("State_Province");
+                String domains = rs.getString("Domains");
+                String web_pages = rs.getString("Web_Pages");
+                String alpha_two_code = rs.getString("Alpha_Two_Code");
+
+                System.out.println("=========================================================");
+                System.out.println("ID: " + id);
+                System.out.println("Name: " + name);
+                System.out.println("Country: " + country);
+                System.out.println("State/Province: " + state_province);
+                System.out.println("Domains: " + domains);
+                System.out.println("Web Pages: " + web_pages);
+                System.out.println("Alpha Two Code: " + alpha_two_code);
+                System.out.println("=========================================================");
+
+            }
+            System.out.println("DATA FETCHED!");
+            con.close();
+            st.close();
+        } catch (Exception ex) {
+            System.err.println(ex);
+        }
+
+    }
 }
